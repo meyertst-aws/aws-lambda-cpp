@@ -356,6 +356,7 @@ runtime::post_outcome runtime::do_post(
     headers = curl_slist_append(headers, ("content-length: " + std::to_string(payload.length())).c_str());
 
     for (auto const& header : handler_response.get_http_headers()) {
+        logging::log_debug(LOG_TAG, "adding header: %s", header.c_str());
         headers = curl_slist_append(headers, header.c_str());
     }
 
