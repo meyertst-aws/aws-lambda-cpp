@@ -538,7 +538,7 @@ invocation_response invocation_response::failure(std::string const& error_messag
 AWS_LAMBDA_RUNTIME_API
 void invocation_response::add_http_header(const std::string& header_name, const std::string& header_value)
 {
-    m_http_headers.push_back(header_name + " : " + header_value);
+    m_http_headers.push_back(header_name + ": " + header_value);
 }
 
 } // namespace lambda_runtime
