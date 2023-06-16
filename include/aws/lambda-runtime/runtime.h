@@ -86,6 +86,11 @@ private:
     bool m_success;
 
     /**
+     * A vector of http headers.
+     */
+    std::vector<std::string> m_http_headers;
+
+    /**
      * Instantiate an empty response. Used by the static functions 'success' and 'failure' to create a populated
      * invocation_response
      */
@@ -127,6 +132,13 @@ public:
      * Returns true if the payload and content-type are set. Returns false if the error message and error types are set.
      */
     bool is_success() const { return m_success; }
+
+    /**
+     * Add an http header for the response.
+     */
+    void add_http_header(const std::string& header_name, const std::string& header_value);
+
+    std::vector<std::string> get_http_headers() const { return m_http_headers; }
 };
 
 struct no_result {};

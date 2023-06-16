@@ -355,6 +355,10 @@ runtime::post_outcome runtime::do_post(
         LOG_TAG, "calculating content length... %s", ("content-length: " + std::to_string(payload.length())).c_str());
     headers = curl_slist_append(headers, ("content-length: " + std::to_string(payload.length())).c_str());
 
+    for (auto const& header : handler_response.get_http_headers()) {
+        headers = curl_slist_append(headers, header.c_str());
+    }
+
     std::pair<std::string const&, size_t> ctx{payload, 0};
     aws::http::response resp;
     curl_easy_setopt(m_curl_handle, CURLOPT_WRITEDATA, &resp);
@@ -529,6 +533,12 @@ invocation_response invocation_response::failure(std::string const& error_messag
     r.m_payload = R"({"errorMessage":")" + json_escape(error_message) + R"(","errorType":")" + json_escape(error_type) +
                   R"(", "stackTrace":[]})";
     return r;
+}
+
+AWS_LAMBDA_RUNTIME_API
+void invocation_response::add_http_header(const std::string& header_name, const std::string& header_value)
+{
+    m_http_headers.push_back(header_name + " : " + header_value);
 }
 
 } // namespace lambda_runtime
