@@ -340,15 +340,18 @@ runtime::post_outcome runtime::do_post(
     logging::log_info(LOG_TAG, "Making request to %s", url.c_str());
 
     curl_slist* headers = nullptr;
+
+#if 0
     if (handler_response.get_content_type().empty()) {
         headers = curl_slist_append(headers, "content-type: text/html");
     }
     else {
         headers = curl_slist_append(headers, ("content-type: " + handler_response.get_content_type()).c_str());
     }
+#endif
 
-    headers = curl_slist_append(headers, "Expect:");
-    headers = curl_slist_append(headers, "transfer-encoding:");
+ //   headers = curl_slist_append(headers, "Expect:");
+ //   headers = curl_slist_append(headers, "transfer-encoding:");
     headers = curl_slist_append(headers, m_user_agent_header.c_str());
     auto const& payload = handler_response.get_payload();
     logging::log_debug(
